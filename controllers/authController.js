@@ -77,7 +77,7 @@ const register = async (req, res) => {
     subject: `Welcome to Trex-Holding.com`,
     html: `<div style="background: rgb(241, 234, 234); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); padding: 2rem; text-align: center;margin: 1rem auto;">
 
-    <img src="https://trex-holding-server.com//uploads/logo.png" style="width: 15rem; text-align: center" alt="logo"/>
+    <img src="https://invest-demo-server.onrender.com/uploads/logo.png" style="width: 15rem; text-align: center" alt="logo"/>
 
     <p style="font-weight: bold; line-height: 1.5">Welcome to Trex-Holding!</p>
 
@@ -152,28 +152,28 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: tokenUser });
 };
 
-const logout = async (req, res) => {
-  res.cookie('token', 'logout', {
-    httpOnly: true,
-    expires: new Date(Date.now()),
-  });
-  res.clearCookie();
-  res.status(StatusCodes.OK).json({ msg: 'user logged out' });
-};
-
 // const logout = async (req, res) => {
 //   res.cookie('token', 'logout', {
 //     httpOnly: true,
 //     expires: new Date(Date.now()),
-//     secure: process.env.NODE_ENV === 'production',
-//     domain: 'trex-holding-server.com',
-//     signed: true,
-//     sameSite: 'None',
-//     path: '/',
 //   });
-//   res.clearCookie('token', { path: '/' });
+//   res.clearCookie();
 //   res.status(StatusCodes.OK).json({ msg: 'user logged out' });
 // };
+
+const logout = async (req, res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+    secure: process.env.NODE_ENV === 'production',
+    domain: 'invest-demo-server.onrender.com',
+    signed: true,
+    sameSite: 'None',
+    path: '/',
+  });
+  res.clearCookie('token', { path: '/' });
+  res.status(StatusCodes.OK).json({ msg: 'user logged out' });
+};
 
 const passwordReset = async (req, res) => {
   const { newPassword, password } = req.body;
@@ -275,7 +275,7 @@ const sendEmail = async (req, res) => {
     subject: 'Password Reset Link',
     html: `
     <div style="background: rgb(241, 234, 234); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); padding: 2rem; text-align: center;margin: 1rem auto;">
-    <p style="line-height: 1.5"> <a href="https://trex-holding.com/resetPassword?id=${id}">Click this link to reset your password </a></p>
+    <p style="line-height: 1.5"> <a href="https://invest-demo-server.onrender.com/resetPassword?id=${id}">Click this link to reset your password </a></p>
     </div>
    `,
   });

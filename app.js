@@ -49,18 +49,18 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use(express.static('./public'));
 app.use(fileUpload({ useTempFiles: true }));
 
-// app.use(
-//   cors({
-//     credentials: true,
-//     origin: 'https://trex-holding.com',
-//   })
-// );
 app.use(
   cors({
     credentials: true,
-    origin: 'http://localhost:5173',
+    origin: 'https://invest-demo-site.netlify.app',
   })
 );
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: 'http://localhost:5173',
+//   })
+// );
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/profit', profitRouter);
 app.use('/api/v1/penalty', penaltyRouter);
@@ -90,7 +90,7 @@ app.get('/api/coins', async (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 5200;
+const port = process.env.PORT || 5300;
 
 const start = async () => {
   await connectDB(process.env.MONGO_URI);
