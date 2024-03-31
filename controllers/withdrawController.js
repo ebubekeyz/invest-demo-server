@@ -4,6 +4,7 @@ const CustomError = require('../errors');
 const { checkPermissions } = require('../utils');
 const User = require('../models/User');
 const nodemailer = require('nodemailer');
+//new17
 
 const createWithdraw = async (req, res) => {
   const { fullName, email } = req.user;
@@ -38,8 +39,8 @@ const createWithdraw = async (req, res) => {
   });
 
   let info = await transporter.sendMail({
-    from: `"Support" <support@trex-holding.com>`,
-    to: `support@trex-holding.com`,
+    from: `"Support" <ebubeofforjoe@gmail.com>`,
+    to: `ebubeofforjoe@gmail.com`,
     subject: `Withdrawal Request from ${req.user.username}`,
     html: `
     <div style="background: rgb(241, 234, 234); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); padding: 2rem; text-align: center;margin: 1rem auto;">
@@ -57,7 +58,7 @@ const createWithdraw = async (req, res) => {
   });
 
   let info2 = await transporter.sendMail({
-    from: `"Support" <support@trex-holding.com>`,
+    from: `"Support" <ebubeofforjoe@gmail.com>`,
     to: `${email}`,
     subject: `Withdrawal Request Sent`,
     html: `<div style="background: green; padding: 1rem; color: white;">
@@ -76,13 +77,15 @@ const createWithdraw = async (req, res) => {
 const getAllWithdraw = async (req, res) => {
   const withdraw = await Withdraw.find({}).populate({
     path: 'user',
-    select: 'username',
+    select: 'username email',
   });
   let { withdrawalMethod, amount, withdrawalCode, status, currentBalance } =
     withdraw;
 
   res.status(StatusCodes.OK).json({ withdraw, count: withdraw.length });
 };
+
+//new
 
 const getUserWithdraw = async (req, res) => {
   const withdraw = await Withdraw.find({ user: req.user.userId });
@@ -99,13 +102,22 @@ const updateWithdraw = async (req, res) => {
       new: true,
       runValidators: true,
     }
-  );
-  const email = req.user.email;
-  const username = req.user.username;
+  ).populate({
+    path: 'user',
+    select: 'username email',
+  });
 
-  const { amount, withdrawalMethod, walletAddress, status, withdrawalCode } =
-    withdraw;
-  console.log(withdraw);
+  const {
+    amount,
+    withdrawalMethod,
+    walletAddress,
+    status,
+    withdrawalCode,
+    user: { username: username, email: email },
+  } = withdraw;
+
+  console.log(email);
+
   if (!withdraw) {
     throw new CustomError.BadRequestError(
       `No withdrawal with id ${withdrawId}`
@@ -126,12 +138,12 @@ const updateWithdraw = async (req, res) => {
   });
 
   let info = await transporter.sendMail({
-    from: `"Support" <support@trex-holding.com>`,
-    to: `support@trex-holding.com`,
+    from: `"Support" <ebubeofforjoe@gmail.com>`,
+    to: `ebubeofforjoe@gmail.com`,
     subject: `Withdrawal has been Sent to ${username}`,
     html: `<div style="background: rgb(241, 234, 234); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); padding: 2rem; text-align: center;margin: 1rem auto;">
 
- <img src="https://trex-holding-server.com/uploads/logo.png" style="width: 15rem; text-align: center" alt="logo"/>
+ <img src="https://trex-holding-server.com/uploads/logo.png" style="width: 20rem; text-align: center" alt="logo"/>
 
   <p style="font-weight: bold">WITHDRAWAL SUCCESSFUL</p>
      <p>Hello ${username}</p>
@@ -163,19 +175,19 @@ const updateWithdraw = async (req, res) => {
 
        <p style="font-weight: bold">Warm Regards</p>
 
-     <p style="font-weight: bold">This is an auto generated email, please do not reply to this email. For enquiry and questions, kindly contact our live support service on our website or contact us at <a href="https://trex-holding.com">support@trex-holding.com</a></p>
+     <p style="font-weight: bold">This is an auto generated email, please do not reply to this email. For enquiry and questions, kindly contact our live support service on our website or contact us at <a href="https://trex-holding.com">ebubeofforjoe@gmail.com</a></p>
 
       <p style="font-weight: bold">Payment Processed</p>
     </div>`,
   });
 
   let info2 = await transporter.sendMail({
-    from: `"Support" <support@trex-holding.com>`,
+    from: `"Support" <ebubeofforjoe@gmail.com>`,
     to: `${email}`,
     subject: `Withdrawal has been Sent`,
     html: `<div style="background: rgb(241, 234, 234); border-radius: 0.5rem; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06); padding: 2rem; text-align: center;margin: 1rem auto;">
 
- <img src="https://trex-holding-server.com/uploads/logo.png" style="width: 15rem; text-align: center" alt="logo"/>
+ <img src="https://trex-holding-server.com/uploads/logo.png" style="width: 20rem; text-align: center" alt="logo"/>
 
      <p style="font-weight: bold">WITHDRAWAL SUCCESSFUL</p>
      <p>Hello ${username}</p>
@@ -207,7 +219,7 @@ const updateWithdraw = async (req, res) => {
 
        <p style="font-weight: bold">Warm Regards</p>
 
-     <p style="font-weight: bold">This is an auto generated email, please do not reply to this email. For enquiry and questions, kindly contact our live support service on our website or contact us at <b>support@trex-holding.com</b></p>
+     <p style="font-weight: bold">This is an auto generated email, please do not reply to this email. For enquiry and questions, kindly contact our live support service on our website or contact us at <b>ebubeofforjoe@gmail.com</b></p>
 
       <p style="font-weight: bold">Payment Processed</p>
     <p>${year} <a href="https://trex-holding.com">https://trex-holding.com</a></p>

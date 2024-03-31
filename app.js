@@ -90,7 +90,7 @@ app.get('/api/coins', async (req, res) => {
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 5300;
+const port = process.env.PORT || 5200;
 
 const start = async () => {
   await connectDB(process.env.MONGO_URI);
