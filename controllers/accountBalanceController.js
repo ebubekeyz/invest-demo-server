@@ -38,11 +38,10 @@ const getUserBalance = async (req, res) => {
 // };
 
 const updateBalance = async (req, res) => {
-  const { balance } = req.body;
   const { id: balanceId } = req.params;
   const balanceMain = await AccountBalance.findOneAndUpdate(
     { _id: balanceId },
-    { balance },
+    req.body,
     {
       new: true,
       runValidators: true,

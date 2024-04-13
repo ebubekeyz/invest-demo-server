@@ -121,19 +121,22 @@ const getUserPayReceipt = async (req, res) => {
 };
 
 const updatePayReceipt = async (req, res) => {
-  const { status } = req.body;
   const { id: payReceiptId } = req.params;
-  const payReceipt = await PayReceipt.findOne({ _id: payReceiptId });
+  const payReceipt = await PayReceipt.findOneAndUpdate(
+    { _id: payReceiptId },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
   if (!payReceiptId) {
     throw new CustomError.BadRequestError(
       `No PayReceipt with id ${payReceiptId} exist`
     );
   }
 
-  payReceipt.status = status;
-
-  await payReceipt.save();
-  res.status(StatusCodes.OK).json({ msg: 'PayReceipt successfully updated' });
+  res.status(StatusCodes.OK).json({ payReceipt });
 };
 
 const getSinglePayReceipt = async (req, res) => {

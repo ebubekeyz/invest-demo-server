@@ -44,19 +44,17 @@ const getSingleCoinAmount = async (req, res) => {
 };
 
 const updateAmount = async (req, res) => {
-  const { bonus, amount } = req.body;
   const { id: amountId } = req.params;
-  const amountMain = await Amount.findOne({ _id: amountId });
+  const amount = await Amount.findOneAndUpdate({ _id: amountId }, req.body, {
+    new: true,
+    runValidators: true,
+  });
   if (!amountId) {
     throw new CustomError.BadRequestError(
       `No amount with id ${amountId} exist`
     );
   }
 
-  amountMain.bonus = bonus;
-  amountMain.amount = amount;
-
-  await amountMain.save();
   res.status(StatusCodes.OK).json({ msg: 'Amount successfully deposited' });
 };
 
@@ -94,6 +92,13 @@ const getUserAmount2 = async (req, res) => {
   res.status(StatusCodes.OK).json({ amount, count: amount.length });
 };
 
+const deleteUserAmount = async (req, res) => {
+  const { id: userId } = req.params;
+  const amount = await Amount.deleteMany({ user: userId });
+
+  res.status(StatusCodes.OK).json({ msg: 'amount successfully deleted' });
+};
+
 module.exports = {
   createAmount,
   getAllAmount,
@@ -104,4 +109,5 @@ module.exports = {
   deleteAmount,
   getSingleCoinAmount,
   deleteAllAmount,
+  deleteUserAmount,
 };
