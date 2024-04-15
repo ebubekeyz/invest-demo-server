@@ -5,11 +5,13 @@ const WithdrawSchema = new mongoose.Schema(
   {
     withdrawalMethod: {
       type: String,
+      required: true,
     },
     amount: {
       type: Number,
       min: [0, 'Amount should not be less than 0'],
       max: [59999, 'Amount should not be more than 59999'],
+      required: true,
     },
 
     withdrawalCode: {
@@ -17,6 +19,7 @@ const WithdrawSchema = new mongoose.Schema(
     },
     walletAddress: {
       type: String,
+      required: true,
     },
 
     status: {
