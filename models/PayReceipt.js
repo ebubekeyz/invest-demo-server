@@ -16,10 +16,22 @@ const PayReceiptSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    profit: {
+      type: Number,
+      default: 0,
+    },
+    refBonus: {
+      type: Number,
+      default: 0,
+    },
     balanceStatus: {
       type: String,
       enum: ['pending', 'confirmed'],
       default: 'pending',
+    },
+    addAmount: {
+      type: Number,
+      default: 0,
     },
 
     amount: {

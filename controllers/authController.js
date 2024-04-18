@@ -11,6 +11,7 @@ const register = async (req, res) => {
   const {
     fullName,
     username,
+    balance,
     email,
     referralId,
     phone,
@@ -20,7 +21,6 @@ const register = async (req, res) => {
     status,
     zip,
     state,
-    balance,
   } = req.body;
   const emailAlreadyExist = await User.findOne({ email });
   if (emailAlreadyExist) {
@@ -33,6 +33,7 @@ const register = async (req, res) => {
   const user = await User.create({
     fullName,
     username,
+    balance,
     email,
     status,
     referralId,
@@ -43,7 +44,6 @@ const register = async (req, res) => {
     city,
     zip,
     state,
-    balance,
   });
 
   const tokenUser = createTokenUser(user);
